@@ -33,3 +33,9 @@ insert into cartelera value(null, '2019-02-01', 1),
 select year(anioFundacion) from teatro;
 select nombreEspectaculo, sum(entradasReservadas) from funciones group by nombreEspectaculo order by entradasReservadas desc;
 select f.descripcionEspectaculo, f.entradasVendidas, month(c.fecha) from cartelera c, funciones f where c.id_funcion = f.id;
+
+#Resolucion consultas:
+#2:
+select sum(asistieron) from funciones where finalizada = true group by id_sala;
+#3:
+select nombreEspectaculo from funciones where finalizada = true and (entradasReservadas > entradasVendidas);
