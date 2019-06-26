@@ -19,14 +19,16 @@ insert into funciones value(null, "Cantando bajo la lluvia", "Pepe", "Una person
 (null, "Cantando bajo la lluvia", "Pepe", "Una persona random cantando cuando llueve.", 1, false, 60, 40, null),
 (null, "Terminator on ice", "Cameron", "Puede un robot patinar?.", 6, true, 0, 20, 20),
 (null, "Terminator on ice", "Cameron", "Puede un robot patinar?.", 6, false, 10, 2, null),
-(null, "Batman en palermo", "Bruno Diaz", "En busca del happy hour mas barato.", 2, true, 40, 30, 20);
+(null, "Batman en palermo", "Bruno Diaz", "En busca del happy hour mas barato.", 2, true, 40, 30, 20),
+(null, "El Franco", "Pipino el breve", "Asi nomas.", 1, true, 10, 30, 20);
 
 insert into cartelera value(null, '2019-02-01', 1),
 (null, '2019-01-01', 2),
 (null, '2019-03-01', 3),
 (null, '2019-02-02', 4),
 (null, '2019-03-02', 5),
-(null, '2019-01-03', 6);
+(null, '2019-01-03', 6),
+(null, '2019-02-04', 7);
 
 #Algunas querys de ej.
 
@@ -36,6 +38,9 @@ select f.descripcionEspectaculo, f.entradasVendidas, month(c.fecha) from cartele
 
 #Resolucion consultas:
 #1:
+select espectaculosPorMes.nombre, espectaculosPorMes.director from
+(select f.nombreEspectaculo as nombre, f.directorEspectaculo as director, count(month(fecha)) as cantidadDeMeses from funciones f, cartelera c where f.id = c.id_funcion group by f.nombreEspectaculo) espectaculosPorMes
+order by cantidadDeMeses desc;
 #2:
 select sum(asistieron) from funciones where finalizada = true group by id_sala;
 #3:
