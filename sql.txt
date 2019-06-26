@@ -1,0 +1,35 @@
+#creacion de squema
+
+create table teatro(id int not null auto_increment  primary key, nombre text(20), anioFundacion date);
+create table salas(id int not null auto_increment primary key, nombre text(20), capacidad int, tieneMicrofono boolean, tieneMaquinaDeHumo boolean);
+create table funciones(id int not null auto_increment primary key, nombreEspectaculo text(20), directorEspectaculo text(20), descripcionEspectaculo text(20), id_sala int, finalizada boolean default false, entradasReservadas int, entradasVendidas int, asistieron int, foreign key(id_sala) references salas(id));
+create table cartelera(id int not null auto_increment primary key, fecha date, id_funcion int, foreign key(id_funcion) references funciones(id));
+
+insert into teatro value(null,"recursiva", '1999-01-01');
+
+insert into salas value(null, "sala1", 100, true, true),
+(null, "sala2", 50, true, true),
+(null, "sala3", 50, false, true),
+(null, "sala4", 30, true, false),
+(null, "sala5", 50, false, false),
+(null, "sala6", 30, false, false);
+
+insert into funciones value(null, "Cantando bajo la lluvia", "Pepe", "Una persona random cantando cuando llueve.", 1, true, 50, 90, 80),
+(null, "Cantando bajo la lluvia", "Pepe", "Una persona random cantando cuando llueve.", 3, true, 20, 50, 40),
+(null, "Cantando bajo la lluvia", "Pepe", "Una persona random cantando cuando llueve.", 1, false, 60, 40, null),
+(null, "Terminator on ice", "Cameron", "Puede un robot patinar?.", 6, true, 0, 20, 20),
+(null, "Terminator on ice", "Cameron", "Puede un robot patinar?.", 6, false, 10, 2, null),
+(null, "Batman en palermo", "Bruno Diaz", "En busca del happy hour mas barato.", 2, true, 40, 30, 20);
+
+insert into cartelera value(null, '2019-02-01', 1),
+(null, '2019-01-01', 2),
+(null, '2019-03-01', 3),
+(null, '2019-02-02', 4),
+(null, '2019-03-02', 5),
+(null, '2019-01-03', 6);
+
+#Algunas querys
+
+select year(anioFundacion) from teatro;
+select nombreEspectaculo, sum(entradasReservadas) from funciones group by nombreEspectaculo order by entradasReservadas desc;
+select f.descripcionEspectaculo, f.entradasVendidas, month(c.fecha) from cartelera c, funciones f where c.id_funcion = f.id;
